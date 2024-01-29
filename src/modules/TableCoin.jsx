@@ -5,7 +5,7 @@ import { Circles } from 'react-loader-spinner';
 import { marketChart } from '../services/cryptoApi.js';
 import styles from './TableCoins.module.css';
 
-function TableCoin({ coins, isLoading, setChart }) {
+function TableCoin({ coins, isLoading, setChart, currency }) {
   return (
     <div className={styles.container}>
       {isLoading ? (
@@ -33,7 +33,12 @@ function TableCoin({ coins, isLoading, setChart }) {
           <tbody>
             {console.log(coins)}
             {coins.map((coin) => (
-              <TableRow coin={coin} key={coin.id} setChart={setChart} />
+              <TableRow
+                coin={coin}
+                key={coin.id}
+                setChart={setChart}
+                currency={currency}
+              />
             ))}
           </tbody>
         </table>
@@ -44,7 +49,7 @@ function TableCoin({ coins, isLoading, setChart }) {
 
 export default TableCoin;
 
-const TableRow = ({ coin, setChart }) => {
+const TableRow = ({ coin, setChart, currency }) => {
   const {
     id,
     name,
@@ -73,7 +78,12 @@ const TableRow = ({ coin, setChart }) => {
         </div>
       </td>
       <td>{name}</td>
-      <td>${current_price}</td>
+      <td>
+        {currency === 'usd' ? '$' : null}
+        {currency === 'eur' ? '€' : null}
+        {currency === 'jpy' ? '¥' : null}
+        {' ' + current_price}
+      </td>
       <td className={price_change > 0 ? styles.secces : styles.error}>
         {price_change.toFixed(2)}%
       </td>
